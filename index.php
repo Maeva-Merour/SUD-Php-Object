@@ -3,13 +3,51 @@
 // Chaque objet a unnom qui commence par une majuscule
 // class permet de déclarer un objet
 // une variable peut êre protégée, publique ou privée - une fonction déclarée également
-class Voiture {
+
+// Un objet s'écrit dans cet ordre:
+// variable
+// getter puis setter
+// fonction supplémenaires
+
+// public scope accessible depuis partout
+// protected scope accessible class et class enfant
+// private scope accessible que dans cette classe
+
+
+class Voiture
+{
     public $marque;
     public $modele;
+    public $couleur;
+    private $immatriculation;
 
-    public function demarrer(){
+    // get permet d'obtenir et set de définir
+    public function getMarque()
+    {
+        return $this->marque;
+    }
+
+    public function setMarque($marque)
+    {
+        $this->marque = $marque;
+    }
+
+    public function getModele()
+    {
+        return $this->modele;
+    }
+
+    public function setModele($modele)
+    {
+        $this->modele = $modele;
+    }
+
+    public function demarrer()
+    {
+        // En PHP, le mot-clé void est utilisé pour indiquer qu'une fonction ne retourne pas de valeur. void est un type de retour.
+
         // pour récupérer les variables en dehors de ma classe dans l'objet je fais $this qui fait référence à l'objet lui-même
-        echo "La voiture ". $this->marque ." ". $this->modele . " démarre.";
+        echo "La voiture " . $this->marque . " " . $this->modele . " démarre.";
     }
 }
 
@@ -22,4 +60,3 @@ $maVoiture = new Voiture();
 $maVoiture->marque = "Lotus";
 $maVoiture->modele = "Elise";
 $maVoiture->demarrer();
-
