@@ -1,48 +1,57 @@
 <?php
 
-class Utilisateur
+class Employe
 {
-    private string $lastname;
-    private string $firstname;
-    private string $email;
-    private bool $activated;
 
-    // Les classes qui possèdent une méthode constructeur appellent cette méthode à chaque création d'une nouvelle instance de l'objet, ce qui est intéressant pour toutes les initialisations dont l'objet a besoin avant d'être utilisé.
-    // Cette fonction spéciale est appelée automatiquement quand on crée un nouvel objet Utilisateur.
-    // Elle reçoit 3 valeurs : nom, prénom et email.
-    public function __construct($lastname, $firstname, $email)
+    public string $nom;
+
+    // seule la classe Employe et ses classes filles peuvent y accéder.
+    protected int $salaire;
+
+    // construct
+    public function __construct($nom, $salaire)
     {
-        // permet de filtrer le format d'email à minima
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Email invalide !");
-        }
-
-        // $this->lastname = $lastname; veut dire : “le nom de cet utilisateur est égal à la valeur reçue”
-        $this->lastname = $lastname;
-        $this->firstname = $firstname;
-        $this->email = $email;
-        // La ligne $this->activated = true; signifie que l’utilisateur est actif par défaut.
-        $this->activated = true;
-
-        // Informe l'état de la création de l'objet
-        echo "Utilisateur créé avec l'email $email. <br>";
+        $this->nom = $nom;
+        $this->salaire = $salaire;
     }
 
-    public function getInfos()
+    // Tu peux override une méthode si :
+    // Elle est public ou protected
+    // Et que tu es dans une classe enfant (extends)
+    // C’est utile pour changer ou adapter le comportement d’une méthode dans une classe spécialisée (comme un Manager qui se comporte différemment d’un Employe).
+    public function travailler()
     {
-        return "Utilisateur :" . $this->lastname . " " . $this->firstname;
+        echo $this->nom . " travaille";
     }
+    public function afficherRole()
 
-    public function __destruct()
+    // ovveride - Quand tu fais ça dans Manager : 
+
+    // public function afficherRole(){
+    // echo "Je suis un manager";
+    //}
+
+    // Tu écrases (remplaces) la version d’Employe, même si Employe avait déjà une méthode afficherRole().
+    // Donc, quand tu appelles afficherRole() sur un objet de type Manager, PHP utilisera celle du Manager, pas celle de Employe.
+
     {
-        echo "Destruction de l'utilisateur." . $this->lastname . " " . $this->firstname;
+        echo "Je suis un employé. <br>";
     }
 }
 
-try {
-    $userOne = new Utilisateur("MEROUR", "Maéva", "contact@contact.fr");
-    echo $userOne->getInfos()."<br>";
-
-} catch (Exception $e) {
-    echo "Erreur :" . $e->getMessage();
+class Manager extends Employe
+// via extends, class Manager est une classe qui hérite de la classe Employe.
+//elle hérite automatiquement de toutes les propriétés et méthodes publiques ou protégées de la classe Employe.
+// Donc, un objet de type Manager pourra utiliser la méthode travailler() et accéder à $nom.
+// Combines le comportement de la classe de base et celui du manager.
+{
+    public function afficherRole()
+    {
+        // :: signifie hériter de - Cela appelle la méthode afficherRole() de la classe Employe, donc ça va exécuter echo $this->nom . " travaille";.
+        parent::afficherRole();
+        echo "Je suis un manager.";
+    }
 }
+
+$managerOne = new Manager("Jean", 2100);
+$managerOne->afficherRole();
