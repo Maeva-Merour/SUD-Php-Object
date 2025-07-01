@@ -1,27 +1,29 @@
 <?php
 
-class Document{
-
-    public function afficherType(){
-        echo "Ceci est un document. <br>";
-    }
-
+interface Telechargeable {
+    public function telecharger();
+    // C’est une sorte de "contrat" qui dit : 
+    // « Toute classe qui veut être téléchargeable doit avoir une méthode telecharger() ».
 }
 
-class Livre extends Document{
-    private $titre;
-
-    public function __construct($titre)
-    {
-        $this->titre = $titre;
-    }
-    public function afficherTitre()
-    {
-        echo "Le titre du livre est : <br>" . $this->titre;
-    }
-
+abstract class Media {
+    abstract public function afficherInfos();
+    // C’est une classe qu’on ne peut pas instancier directement, mais qui sert de base.
+    // Elle impose que toute classe fille doit définir la méthode afficherInfos().
 }
 
-$livre1 = new Livre("Roger Rabbit");
-$livre1->afficherType();
-$livre1->afficherTitre();
+class LivreNumerique extends Media implements Telechargeable {
+    // Hérite de Media (donc doit définir afficherInfos())
+    // Implémente l’interface Telechargeable (donc doit définir telecharger())
+    public function afficherInfos()
+    {   // afficherInfos() affiche un message sur le livre numérique
+        // implémentation ici
+        echo "Infos du livre numérique";
+    }
+
+    public function telecharger()
+    {   // telecharger() affiche un message pour simuler le téléchargement
+        // implémentation du téléchargement ici
+        echo "Téléchargement du livre numérique...";
+    }
+}
