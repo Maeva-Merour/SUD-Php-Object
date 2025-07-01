@@ -1,57 +1,49 @@
 <?php
 
-class Employe
+class Livre
 {
 
-    public string $nom;
+    private $titre;
+    public static $nbLivres;
+    // partagé par toutes les instances (objets) de Livre
 
-    // seule la classe Employe et ses classes filles peuvent y accéder.
-    protected int $salaire;
-
-    // construct
-    public function __construct($nom, $salaire)
+    public function __construct($titre)
     {
-        $this->nom = $nom;
-        $this->salaire = $salaire;
+        //  incrémente le compteur nbLivres
+        self::$nbLivres++;
+
+        $this->setTitre($titre);
+    }
+    public function getTitre(): string
+    {
+        return $this->titre;
+    }
+    public function setTitre(string $nouveauTitre)
+    {
+        if (!empty($nouveauTitre)) {
+            $this->titre = $nouveauTitre;
+        }
     }
 
-    // Tu peux override une méthode si :
-    // Elle est public ou protected
-    // Et que tu es dans une classe enfant (extends)
-    // C’est utile pour changer ou adapter le comportement d’une méthode dans une classe spécialisée (comme un Manager qui se comporte différemment d’un Employe).
-    public function travailler()
+    public function afficherTitre()
     {
-        echo $this->nom . " travaille";
+        echo "Le titre du livre est : <br>" . $this->titre;
     }
-    public function afficherRole()
 
-    // ovveride - Quand tu fais ça dans Manager : 
-
-    // public function afficherRole(){
-    // echo "Je suis un manager";
-    //}
-
-    // Tu écrases (remplaces) la version d’Employe, même si Employe avait déjà une méthode afficherRole().
-    // Donc, quand tu appelles afficherRole() sur un objet de type Manager, PHP utilisera celle du Manager, pas celle de Employe.
-
+    public static function afficherCompteur()
+    // Méthode statique (appelée sans objet), qui affiche combien de livres ont été créés.
     {
-        echo "Je suis un employé. <br>";
+        echo "Nombre total de livres : " . self::$nbLivres . "<br>";
     }
 }
 
-class Manager extends Employe
-// via extends, class Manager est une classe qui hérite de la classe Employe.
-//elle hérite automatiquement de toutes les propriétés et méthodes publiques ou protégées de la classe Employe.
-// Donc, un objet de type Manager pourra utiliser la méthode travailler() et accéder à $nom.
-// Combines le comportement de la classe de base et celui du manager.
-{
-    public function afficherRole()
-    {
-        // :: signifie hériter de - Cela appelle la méthode afficherRole() de la classe Employe, donc ça va exécuter echo $this->nom . " travaille";.
-        parent::afficherRole();
-        echo "Je suis un manager.";
-    }
-}
+$livre1 = new Livre("The Best Seller <br>");
+// $livre1->titre = "Mon livre";
+$livre1->afficherTitre();
 
-$managerOne = new Manager("Jean", 2100);
-$managerOne->afficherRole();
+$livre1->setTitre("La saga continue");
+echo $livre1->getTitre();
+
+Livre::afficherCompteur();
+// Affiche le nombre total de livres créés
+
