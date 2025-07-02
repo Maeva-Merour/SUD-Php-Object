@@ -1,29 +1,70 @@
 <?php
 
-interface Telechargeable {
-    public function telecharger();
-    // C’est une sorte de "contrat" qui dit : 
-    // « Toute classe qui veut être téléchargeable doit avoir une méthode telecharger() ».
-}
+abstract class Animal
+{
+    public string $nom;
+    public string $espece;
+    public string $race;
 
-abstract class Media {
-    abstract public function afficherInfos();
-    // C’est une classe qu’on ne peut pas instancier directement, mais qui sert de base.
-    // Elle impose que toute classe fille doit définir la méthode afficherInfos().
-}
 
-class LivreNumerique extends Media implements Telechargeable {
-    // Hérite de Media (donc doit définir afficherInfos())
-    // Implémente l’interface Telechargeable (donc doit définir telecharger())
-    public function afficherInfos()
-    {   // afficherInfos() affiche un message sur le livre numérique
-        // implémentation ici
-        echo "Infos du livre numérique";
+    public function __construct($nom, $espece, $race)
+    {
+        $this->nom = $nom;
+        $this->espece = $espece;
+        $this->race = $race;
     }
 
-    public function telecharger()
-    {   // telecharger() affiche un message pour simuler le téléchargement
-        // implémentation du téléchargement ici
-        echo "Téléchargement du livre numérique...";
+    abstract public function crier();
+
+    abstract public function courir();
+
+    abstract public function dormir();
+
+    public function presenter()
+    {
+        echo "Je suis un " . $this->espece . " de la race " . $this->race . ". <br>";
     }
 }
+
+class Chien extends Animal
+{
+    public function crier()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " aboie. <br>";
+    }
+
+    public function dormir()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " dort. <br>";
+    }
+    public function courir()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " court. <br>";
+    }
+}
+
+class Cheval extends Animal
+{
+    public function crier()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " hennit. <br>";
+    }
+    public function dormir()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " dort. <br>";
+    }
+    public function courir()
+    {
+        echo "Le " . $this->espece . " " . $this->nom . " galope. <br>";
+    }
+}
+
+$philae = new Chien("Philae", "chien", "galgo");
+$philae->presenter();
+$philae->crier();
+$philae->dormir();
+
+$spirit = new Cheval("Spirit", "cheval", "mustang");
+$spirit->presenter();
+$spirit->crier();
+$spirit->courir();
