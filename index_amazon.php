@@ -136,27 +136,47 @@ class Drone extends Vehicule implements Connecte, Volant, Livrable, Rechargeable
     public function recharger()
     {
         echo $this->nom . " se recharge. <br>";
-
         return $this->batterie = 100;
     }
 }
 
 $drone = new Drone("Amazon", "25 min", "80");
-$drone->connecter();
-$drone->estConnecte();
-$drone->niveauBatterie(100);
-$drone->estCharge();
-$drone->decoller();
-$drone->altitudeActuelle(520);
 $drone->decrire();
-$drone->chargerMarchandise("crevetollas", 2);
-$drone->calculerTempsTrajet(10);
-$drone->atterir();
-$drone->livrer();
-$drone->decoller();
-$drone->altitudeActuelle(460);
-$drone->depot(15);
-$drone->atterir();
-$drone->niveauBatterie(60);
-$drone->recharger();
-$drone->deconnecter();
+// instanceof est un opérateur en PHP.
+// Il permet de vérifier si un objet appartient à une certaine classe ou hérite de cette classe.
+if($drone instanceof Connecte){
+    // Si l’objet $drone est une instance de la classe Connecte ou d'une de ses classes filles, alors on exécute le bloc de code à l'intérieur des accolades.
+    $drone->connecter();
+    echo "Connecté : ". ($drone->estConnecte() ? "oui" :"non"). "<br>";
+    // car $this->connecte = true dans la fonction connecter
+}
+
+if($drone instanceof Livrable){
+    $drone->livrer();
+    echo "Livré : " . ($drone->estCharge() ? "non" :"oui"). "<br>";
+}
+
+if($drone instanceof Rechargeable){
+    $drone->recharger();
+    $niveau = $drone->niveauBatterie(100);
+    echo "Batterie : " . $niveau . " <br>";
+}
+
+// $drone->connecter();
+// $drone->estConnecte();
+// $drone->niveauBatterie(100);
+// $drone->estCharge();
+// $drone->decoller();
+// $drone->altitudeActuelle(520);
+// $drone->decrire();
+// $drone->chargerMarchandise("crevetollas", 2);
+// $drone->calculerTempsTrajet(10);
+// $drone->atterir();
+// $drone->livrer();
+// $drone->decoller();
+// $drone->altitudeActuelle(460);
+// $drone->depot(15);
+// $drone->atterir();
+// $drone->niveauBatterie(60);
+// $drone->recharger();
+// $drone->deconnecter();
