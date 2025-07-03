@@ -24,12 +24,12 @@ class NotificationService{
     // on appelle un trait à l’intérieur d’une classe en utilisant le mot-clé use.
     use Logger, Mailer;
 
-    public function notifierClient(){
-        $this->log("Vous êtes connecté.");
-        $this->sendMail("contact@contact.fr","Salut !");
+    public function notifierClient(string $log, string $email, string $message){
+        $this->log($log);
+        $this->sendMail($email, $message);
     }
 
 }
 
 $notif = new NotificationService();
-$notif->notifierClient();
+$notif->notifierClient("Vous êtes connecté.", "contact@contact.fr","Salut !");
